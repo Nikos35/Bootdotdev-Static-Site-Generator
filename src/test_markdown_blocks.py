@@ -58,15 +58,15 @@ This is another paragraph seperated by many newlines
     def test_block_to_blocktype(self):
 
         blocks = [
-            "```code```",
+            "```\ncode\n````",
             "- list\n- second\n- third",
             "1. ordered\n2. second\n3. third",
             "regular\nparagrapgh\n",
-            ">quote\n>1quote\n2quote"
+            ">quote\n>1quote\n>2quote"
         ]
 
         block_types = [block_to_block_type(block) for block in blocks]
-
+        print(block_types)
         self.assertEqual(
             block_types,
             [

@@ -25,19 +25,18 @@ def markdown_to_blocks(markdown):
 
 def block_to_block_type(block):
     
-    if block[:2] == "# ":
+    if block.startswith(("# ", "## ", "### ", "#### ", "##### ", "###### ")):
         return BlockType.HEADING
 
-    if block[:3] == "```" and block[2::-1] == "```":
-        return BlockType.CODE
-    
     lines = block.split("\n")
 
+    if len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```"):
+        return BlockType.CODE
 
     isQuote = True
     i = 0
-    while isQuote and i < len(lines) - 1:
-        if lines[i][0] != ">":
+    while isQuote and i < len(lines):
+        if not lines[i].startswith(">"):
             isQuote = False
         i += 1
 
@@ -46,8 +45,8 @@ def block_to_block_type(block):
 
     isUnorderedList = True
     i = 0
-    while isUnorderedList and i < len(lines) - 1:
-        if lines[i][0:2] != "- ":
+    while isUnorderedList and i < len(lines):
+        if not lines[i].startswith("- "):
             isUnorderedList = False
         i += 1
     if isUnorderedList:
@@ -56,11 +55,10 @@ def block_to_block_type(block):
 
     isOrderedList = True
     i = 0
-    while isOrderedList and i < len(lines) - 1:
-        if lines[i][0:3] != f"{i+1}. ":
+    while isOrderedList and i < len(lines):
+        if not lines[i].startswith(f"{i+1}. "):
             isOrderedList = False
         i += 1
-
     if isOrderedList:
         return BlockType.ORDERED_LIST 
     
