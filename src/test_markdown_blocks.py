@@ -66,13 +66,12 @@ This is another paragraph seperated by many newlines
         ]
 
         block_types = [block_to_block_type(block) for block in blocks]
-        print(block_types)
         self.assertEqual(
             block_types,
             [
                 BlockType.CODE,
-                BlockType.UNORDERED_LIST, 
-                BlockType.ORDERED_LIST, 
+                BlockType.ULIST, 
+                BlockType.OLIST, 
                 BlockType.PARAGRAPH,
                 BlockType.QUOTE
             ]

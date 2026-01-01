@@ -5,8 +5,8 @@ class BlockType(Enum):
     HEADING = "heading"
     CODE = "code"
     QUOTE = "quote"
-    UNORDERED_LIST = "unordered_list"
-    ORDERED_LIST = "ordered_list"
+    ULIST = "unordered_list"
+    OLIST = "ordered_list"
 
 
 
@@ -33,34 +33,25 @@ def block_to_block_type(block):
     if len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```"):
         return BlockType.CODE
 
-    isQuote = True
-    i = 0
-    while isQuote and i < len(lines):
-        if not lines[i].startswith(">"):
-            isQuote = False
-        i += 1
-
-    if isQuote:
+    if block.startswith(">"):
+        for line in lines:
+            if not line.startswith(">"):
+                return BlockType.PARAGRAPH
         return BlockType.QUOTE
-
-    isUnorderedList = True
-    i = 0
-    while isUnorderedList and i < len(lines):
-        if not lines[i].startswith("- "):
-            isUnorderedList = False
-        i += 1
-    if isUnorderedList:
-        return BlockType.UNORDERED_LIST 
     
+    if block.startswith("- "):
+        for line in lines:
+            if not line.startswith("- "):
+                return BlockType.PARAGRAPH
+        return BlockType.ULIST
 
-    isOrderedList = True
-    i = 0
-    while isOrderedList and i < len(lines):
-        if not lines[i].startswith(f"{i+1}. "):
-            isOrderedList = False
-        i += 1
-    if isOrderedList:
-        return BlockType.ORDERED_LIST 
-    
+    if block.startswith("1. "):
+        i = 1
+        for line in lines:
+            if not line.startswith(f"{i}. "):
+                return BlockType.PARAGRAPH
+            i += 1
+        return BlockType.OLIST
+        
     return BlockType.PARAGRAPH
     
