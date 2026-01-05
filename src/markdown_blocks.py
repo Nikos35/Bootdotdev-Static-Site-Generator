@@ -132,11 +132,13 @@ def text_to_html_children(text, block_type):
     if block_type == BlockType.PARAGRAPH:
         text_nodes = text_to_textnodes(text.replace("\n", " "))
     
-    if block_type == BlockType.QUOTE: 
+    if block_type == BlockType.QUOTE:
+        new_lines = [] 
         for line in text.split("\n"):
-            if not line.startswith("> "):
+            if not line.startswith(">"):
                 raise ValueError("Invalid quote block: invalid markdown syntax")
-        text_nodes = text_to_textnodes(text[2:].replace("\n> ", " "))
+            new_lines.append(line.lstrip(">").strip())
+        text_nodes = text_to_textnodes(" ".join(new_lines))
 
     if block_type == BlockType.ULIST:
         lines = text.split("\n")

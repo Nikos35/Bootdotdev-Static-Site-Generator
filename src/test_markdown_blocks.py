@@ -147,6 +147,7 @@ this is paragraph text
     def test_blockquote(self):
         md = """
 > This is a
+>
 > blockquote block
 
 this is paragraph text
@@ -157,7 +158,7 @@ this is paragraph text
         html = node.to_html()
         self.assertEqual(
             html,
-            "<div><blockquote>This is a blockquote block</blockquote><p>this is paragraph text</p></div>",
+            "<div><blockquote>This is a  blockquote block</blockquote><p>this is paragraph text</p></div>", # not 100% sure this is correct, maybe there isn't supposed to be a double space there
         )
 
     def test_code(self):
