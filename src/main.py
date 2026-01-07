@@ -10,8 +10,8 @@ def main():
 
 
 
-    clear_directory("public")
-    copy_files_recursive("static", "public")
+    clear_directory("docs")
+    copy_files_recursive("static", "docs")
 
     generate_pages_recursive("content/", "template.html", "docs/", basepath)
 
