@@ -5,10 +5,10 @@ from generate_page import generate_pages_recursive
 import sys
 
 def main():
-    basepath = sys.argv[0]
+    basepath = "/"
+    if len(sys.argv) == 0:
+        basepath = sys.argv[0]
     
-
-
 
     clear_directory("docs")
     copy_files_recursive("static", "docs")
